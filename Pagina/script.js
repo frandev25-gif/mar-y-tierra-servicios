@@ -96,25 +96,31 @@ const machineryData = [
         name: 'Cargadora Frontal',
         description: 'Equipos de alta capacidad para carga, transporte y nivelación de materiales en todo tipo de terrenos.',
         icon: 'fas fa-truck-loading',
-        image: '../Imagenes/cargadora.png'
+        image: 'Imagenes/cargadora.png'
     },
     {
         name: 'Excavadora',
         description: 'Maquinaria de precisión para excavaciones profundas, zanjas y trabajos de demolición.',
         icon: 'fas fa-hard-hat',
-        image: '../Imagenes/excavadora.png'
+        image: 'Imagenes/excavadora.png'
     },
     {
         name: 'Topadora',
         description: 'Potencia y eficiencia para movimiento de grandes volúmenes de tierra y nivelación de terrenos.',
         icon: 'fas fa-tractor',
-        image: '../Imagenes/topadora.png'
+        image: 'Imagenes/topadora.png'
     },
     {
         name: 'Camiones Volcadores',
         description: 'Flota de camiones para transporte de materiales con capacidad de carga optimizada.',
         icon: 'fas fa-truck',
-        image: '../Imagenes/Mar y Tierra.png' // Using this as a fallback
+        image: 'Imagenes/Camion volcador.webp'
+    },
+    {
+        name: 'Camión Carretón',
+        description: 'Transporte especializado de maquinaria pesada y equipos de gran envergadura con máxima seguridad.',
+        icon: 'fas fa-trailer',
+        image: 'Imagenes/Carreton.png' // Ruta para la nueva imagen
     }
 ];
 
