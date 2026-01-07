@@ -404,13 +404,12 @@ p {
     animation: fadeInUp 1s ease;
 }
 
-.hero-title {
-    font-size: clamp(3rem, 6vw, 5rem);
-    font-weight: 800;
+.hero-logo {
+    max-width: 600px;
+    height: auto;
     margin-bottom: var(--spacing-md);
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-    line-height: 1.1;
-    color: var(--color-sand);
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
+    animation: fadeInUp 1s ease;
 }
 
 .hero-subtitle {
