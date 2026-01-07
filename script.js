@@ -220,16 +220,15 @@ contactForm.addEventListener('submit', (e) => {
 // === PARALLAX EFFECT ===
 window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
-    const hero = document.querySelector('.hero');
-    const machineryBg = document.querySelector('.hero-bg-machinery');
+    const heroContent = document.querySelector('.hero-content');
+    const heroBg = document.querySelector('.hero::before');
 
-    if (hero && scrolled < window.innerHeight) {
-        // Parallax en el hero completo
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-
-        // Parallax en las imágenes de maquinaria
-        if (machineryBg) {
-            machineryBg.style.setProperty('--scroll-offset', `${scrolled * 0.3}px`);
+    if (scrolled < window.innerHeight) {
+        // Solo movemos el contenido un poco para dar profundidad, 
+        // pero mucho menos para evitar choques
+        if (heroContent) {
+            heroContent.style.transform = `translateY(${scrolled * 0.15}px)`;
+            heroContent.style.opacity = 1 - (scrolled / (window.innerHeight * 0.8));
         }
     }
 });
