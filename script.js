@@ -87,7 +87,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-const animatedElements = document.querySelectorAll('.service-card, .machinery-card, .zone-feature, .value-item, .contact-item');
+const animatedElements = document.querySelectorAll('.service-card, .machinery-card, .zone-feature, .value-item, .contact-item, .qr-contact-box');
 animatedElements.forEach(el => observer.observe(el));
 
 // === MACHINERY SECTION - DYNAMIC CONTENT ===
