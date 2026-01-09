@@ -410,8 +410,9 @@ p {
 
 .hero-logo {
     max-width: 600px;
+    width: 100%;
     height: auto;
-    margin-bottom: var(--spacing-md);
+    margin: 0 auto var(--spacing-md);
     filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
     animation: fadeInUp 1s ease;
 }
@@ -985,8 +986,25 @@ p {
         left: 0;
     }
 
+    .nav {
+        justify-content: center;
+        position: relative;
+        padding: 0.5rem 0;
+    }
+
     .menu-toggle {
         display: flex;
+        position: absolute;
+        right: var(--spacing-md);
+    }
+
+    .hero-content {
+        padding: var(--spacing-lg) var(--spacing-md);
+        width: 100%;
+    }
+
+    .hero-logo {
+        max-width: 280px;
     }
 
     .menu-toggle.active span:nth-child(1) {
