@@ -126,6 +126,9 @@ const machineryData = [
 
 const machineryGrid = document.getElementById('machineryGrid');
 
+// Clear static content to avoid duplicates
+if (machineryGrid) machineryGrid.innerHTML = '';
+
 machineryData.forEach((machine, index) => {
     const card = document.createElement('div');
     card.className = 'machinery-card';
@@ -288,3 +291,119 @@ if ('IntersectionObserver' in window) {
 console.log('%c Mar & Tierra Servicios ', 'background: #0A2463; color: #FF6B35; font-size: 20px; font-weight: bold; padding: 10px;');
 console.log('%c Movimiento de Suelo y Maquinaria Pesada ', 'background: #FF6B35; color: white; font-size: 14px; padding: 5px;');
 console.log('%c Costa Atlántica Argentina ', 'background: #1E5AA8; color: white; font-size: 14px; padding: 5px;');
+
+// ============================================
+// SUPABASE INTEGRATION - TALENTOS
+// ============================================
+const SUPABASE_URL = 'https://ihndsfunllexpaaiyhsd.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlobmRzZnVubGxleHBhYWl5aHNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzcwODIsImV4cCI6MjA4NDc1MzA4Mn0.haZOIRdBJZevJZWSEZUGZY15J8YMluagKaCT9jwR4qY';
+
+// Initialize Client
+let supabaseClient = null;
+if (typeof window.supabase !== 'undefined') {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('Supabase initialized');
+} else {
+    console.error('Supabase SDK not loaded');
+}
+
+// Wrap logic in DOMContentLoaded to ensure elements exist
+document.addEventListener('DOMContentLoaded', () => {
+    // Talent Form Logic
+    const talentForm = document.querySelector('.talentos-form');
+    // Ensure we select the file input specifically inside the form or by unique ID if robust
+    const talentFileInput = document.getElementById('cvFile');
+
+    // File Input Visual Feedback
+    if (talentFileInput) {
+        talentFileInput.addEventListener('change', (e) => {
+            const label = document.querySelector('label[for="cvFile"]');
+            if (e.target.files.length > 0 && label) {
+                label.innerHTML = `<i class="fas fa-check"></i> ${e.target.files[0].name}`;
+                label.style.borderColor = '#FF6B35';
+                label.style.color = '#FF6B35';
+            }
+        });
+    }
+
+    // Form Submit Handler
+    if (talentForm) {
+        talentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!supabaseClient) {
+                alert('Error: No se pudo conectar con el servidor. Por favor recarga la página.');
+                return;
+            }
+
+            const btn = talentForm.querySelector('button[type="submit"]');
+            const originalText = 'Cargar CV';
+
+            try {
+                // Validation
+                const nameInput = talentForm.querySelector('input[type="text"]');
+                const emailInput = talentForm.querySelector('input[type="email"]');
+                const file = talentFileInput ? talentFileInput.files[0] : null;
+
+                if (!nameInput.value || !emailInput.value || !file) {
+                    alert('Por favor completá todos los campos.');
+                    return;
+                }
+
+                // UI Loading State
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+
+                const name = nameInput.value;
+                const email = emailInput.value;
+
+                // 1. Upload File
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${name.replace(/\s+/g, '_')}.${fileExt}`;
+                const filePath = `cvs/${fileName}`;
+
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('Talento')
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                // 2. Get Public URL
+                const { data: { publicUrl } } = supabaseClient.storage
+                    .from('Talento')
+                    .getPublicUrl(filePath);
+
+                // 3. Insert Record
+                const { error: dbError } = await supabaseClient
+                    .from('postulantes')
+                    .insert([{
+                        nombre: name,
+                        email: email,
+                        telefono: "No provisto (Web)",
+                        puesto: "General",
+                        cv_url: publicUrl
+                    }]);
+
+                if (dbError) throw dbError;
+
+                // Success
+                alert('¡CV enviado con éxito! Gracias por tu interés.');
+                talentForm.reset();
+
+                const label = document.querySelector('label[for="cvFile"]');
+                if (label) {
+                    label.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Seleccionar CV';
+                    label.style.borderColor = 'rgba(255,255,255,0.3)';
+                    label.style.color = '#CCC';
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert('Error al enviar: ' + (err.message || 'Inténtalo de nuevo.'));
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+    }
+});
