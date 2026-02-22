@@ -5,8 +5,7 @@
 // === NAVIGATION ===
 const header = document.getElementById('header');
 const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-const navLinks = document.querySelectorAll('.nav-link');
+const navActions = document.querySelector('.nav-actions');
 
 // Scroll header effect
 window.addEventListener('scroll', () => {
@@ -18,18 +17,13 @@ window.addEventListener('scroll', () => {
 });
 
 // Mobile menu toggle
-menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
-
-// Close mobile menu on link click
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navMenu.classList.remove('active');
+if (menuToggle && navActions) {
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navActions.classList.toggle('active');
     });
-});
+}
+
 
 // Active link on scroll
 const sections = document.querySelectorAll('.section, .hero');
