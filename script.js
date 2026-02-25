@@ -27,6 +27,7 @@ if (menuToggle && navActions) {
 
 // Active link on scroll
 const sections = document.querySelectorAll('.section, .hero');
+const navLinks = document.querySelectorAll('.nav-action-link, .nav-link');
 
 window.addEventListener('scroll', () => {
     let current = '';
