@@ -203,7 +203,7 @@ contactForm.addEventListener('submit', (e) => {
 
     // Create WhatsApp message
     const whatsappMessage = `Hola! Mi nombre es ${name}.%0A%0A${message}%0A%0AMi teléfono: ${phone}`;
-    const whatsappURL = `https://wa.me/5492995499836?text=${whatsappMessage}`;
+    const whatsappURL = `https://wa.me/5492235429896?text=${whatsappMessage}`;
 
     // Open WhatsApp
     window.open(whatsappURL, '_blank');
