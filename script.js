@@ -357,11 +357,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fileName = `${Date.now()}_${name.replace(/\s+/g, '_')}.${fileExt}`;
                 const filePath = `cvs/${fileName}`;
 
-                const { error: uploadError } = await supabaseClient.storage
+                const { data: uploadData, error: uploadError } = await supabaseClient.storage
                     .from('Talento')
                     .upload(filePath, file);
 
-                if (uploadError) throw uploadError;
+                if (uploadError) {
+                    console.error('Upload Error:', uploadError);
+                    throw new Error(`Error al subir CV: ${uploadError.message}. ¿Creaste el bucket 'Talento' en Storage?`);
+                }
 
                 // 2. Get Public URL
                 const { data: { publicUrl } } = supabaseClient.storage
@@ -401,4 +404,52 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Load dynamic ads
+    loadPublicidad();
 });
+
+// === LOAD ADS FROM SUPABASE ===
+async function loadPublicidad() {
+    const adsContainer = document.getElementById('adsContainer');
+    const adSection = document.getElementById('publicidad');
+
+    if (!supabaseClient || !adsContainer) return;
+
+    try {
+        const { data: ads, error } = await supabaseClient
+            .from('anuncios')
+            .select('*')
+            .eq('activo', true)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (ads && ads.length > 0) {
+            adSection.style.display = 'block';
+            adsContainer.innerHTML = '';
+
+            ads.forEach(ad => {
+                const card = document.createElement('div');
+                card.className = 'ad-card';
+                card.innerHTML = `
+                    <span class="ad-badge">Anuncio</span>
+                    <div class="ad-image-wrapper">
+                        <img src="${ad.imagen_url}" alt="${ad.titulo}" loading="lazy">
+                    </div>
+                    <div class="ad-content">
+                        <h3>${ad.titulo}</h3>
+                        ${ad.enlace ? `
+                            <a href="${ad.enlace}" target="_blank" class="ad-link">
+                                Ver más <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        ` : ''}
+                    </div>
+                `;
+                adsContainer.appendChild(card);
+            });
+        }
+    } catch (err) {
+        console.error('Error loading ads:', err);
+    }
+}
