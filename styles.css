@@ -1571,7 +1571,7 @@ textarea {
 }
 
 .btn-advertise {
-    background: linear-gradient(135deg, var(--color-ocean-blue), var(--color-industrial-orange));
+    background: linear-gradient(135deg, #25D366, #128C7E);
     color: var(--color-white);
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
@@ -1579,10 +1579,10 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
-    box-shadow: 0 4px 15px rgba(30, 90, 168, 0.3);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
 }
 
 .btn-advertise:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 6px 20px rgba(18, 140, 126, 0.4);
 }
