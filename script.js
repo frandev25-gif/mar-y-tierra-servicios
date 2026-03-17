@@ -405,16 +405,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Load dynamic ads
-    loadPublicidad();
+    // Load dynamic partners
+    loadPartners();
 });
 
-// === LOAD ADS FROM SUPABASE ===
-async function loadPublicidad() {
-    const adsContainer = document.getElementById('adsContainer');
-    const adSection = document.getElementById('publicidad');
+// === LOAD PARTNERS FROM SUPABASE ===
+async function loadPartners() {
+    const partnersGrid = document.getElementById('partnersGrid');
+    const partnersSection = document.getElementById('partners');
 
-    if (!supabaseClient || !adsContainer) return;
+    if (!supabaseClient || !partnersGrid) return;
 
     try {
         const { data: ads, error } = await supabaseClient
@@ -426,30 +426,30 @@ async function loadPublicidad() {
         if (error) throw error;
 
         if (ads && ads.length > 0) {
-            adSection.style.display = 'block';
-            adsContainer.innerHTML = '';
+            partnersSection.style.display = 'block';
+            partnersGrid.innerHTML = '';
 
             ads.forEach(ad => {
                 const card = document.createElement('div');
-                card.className = 'ad-card';
+                card.className = 'partner-card';
                 card.innerHTML = `
-                    <span class="ad-badge">Anuncio</span>
-                    <div class="ad-image-wrapper">
+                    <span class="partner-badge">Socio</span>
+                    <div class="partner-image-wrapper">
                         <img src="${ad.imagen_url}" alt="${ad.titulo}" loading="lazy">
                     </div>
-                    <div class="ad-content">
+                    <div class="partner-content">
                         <h3>${ad.titulo}</h3>
                         ${ad.enlace ? `
-                            <a href="${ad.enlace}" target="_blank" class="ad-link">
+                            <a href="${ad.enlace}" target="_blank" class="partner-link">
                                 Ver más <i class="fas fa-external-link-alt"></i>
                             </a>
                         ` : ''}
                     </div>
                 `;
-                adsContainer.appendChild(card);
+                partnersGrid.appendChild(card);
             });
         }
     } catch (err) {
-        console.error('Error loading ads:', err);
+        console.error('Error loading partners:', err);
     }
 }
