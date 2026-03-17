@@ -425,8 +425,10 @@ async function loadPartners() {
 
         if (error) throw error;
 
+        // Always show the section so the "Advertise Here" CTA is visible
+        partnersSection.style.display = 'block';
+
         if (ads && ads.length > 0) {
-            partnersSection.style.display = 'block';
             partnersGrid.innerHTML = '';
 
             ads.forEach(ad => {
