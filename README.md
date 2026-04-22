@@ -128,7 +128,7 @@ Para agregar una galería de proyectos realizados:
 ## 📱 Contacto
 
 ### WhatsApp
-- **Número:** +54 9 299 549 9836
+- **Número:** +54 9 223 542 9896
 - El botón de WhatsApp abre automáticamente una conversación
 - El formulario también redirige a WhatsApp con el mensaje pre-cargado
 
@@ -218,5 +218,5 @@ Sitio desarrollado con:
 **Mar & Tierra Servicios**  
 Movimiento de Suelo y Maquinaria Pesada  
 Costa Atlántica Argentina  
-📱 +54 9 299 549 9836  
+📱 +54 9 223 542 9896  
 📧 martierra.servicios@gmail.com
